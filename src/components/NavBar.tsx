@@ -17,7 +17,7 @@ const NavBar = () => {
 
         <Link href="/sign-in" className={buttonVariants()}>Sign In</Link>
       </div>
-    </div>
+    </div>  
   );
 };
 
