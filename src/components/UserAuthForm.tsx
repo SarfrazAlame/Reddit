@@ -8,6 +8,7 @@ import { FaGoogle } from "react-icons/fa";
 
 interface UserAuthFormProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
+
 const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -24,7 +25,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   return (
     <div className={cn("flex justify-center", className)}>
       <Button
-        onClick={loginwithGoogle}
+        onClick={loginwithGoogle }
         isLoading={isLoading}
         size="sm"
         className="w-full"
