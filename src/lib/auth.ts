@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, getServerSession } from "next-auth";
 import { db } from "./db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import GoogleProvider from "next-auth/providers/google"
@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.image = token.picture
                 session.user.username = token.username
             }
+            console.log("hiii therre")
             return session
         },
         async jwt({ token, user }) {
@@ -64,5 +65,4 @@ export const authOptions: NextAuthOptions = {
             return "/"
         }
     }
-
 }
