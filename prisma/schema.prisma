@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum VoteType {
   UP
   DOWN
@@ -95,7 +94,7 @@ model Post {
   authorId    String
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   subredditId String
-  comments    Comment[] 
+  comments    Comment[]
   votes       Vote[]
 }
 
