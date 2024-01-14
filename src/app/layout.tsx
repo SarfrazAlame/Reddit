@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Providers from "@/components/Providers";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Breadit",
@@ -30,6 +31,7 @@ export default function RootLayout({
 
           <div className="container max-w-7xl mx-auto h-full pt-12">
             {children}
+            <Toaster />
           </div>
         </Providers>
       </body>

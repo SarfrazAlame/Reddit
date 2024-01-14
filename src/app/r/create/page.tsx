@@ -7,8 +7,8 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { CreateSubredditPayload } from "@/lib/validators/subreddit";
-import { toast } from "@/components/ui/use-toast";
 import { useCustomToast } from "@/hooks/use-custom-toast";
+import { toast } from "@/components/ui/use-toast";
 
 const page = () => {
   const [input, setInput] = useState<string>("");
@@ -24,6 +24,7 @@ const page = () => {
       const { data } = await axios.post("/api/subreddit", payload);
       return data as string;
     },
+
     onError: (err) => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {
@@ -45,8 +46,19 @@ const page = () => {
           return loginToast();
         }
       }
+
+      toast({
+        title: "There was an error",
+        description: "Could not create subreddit",
+        variant: "destructive",
+      });
+    },
+
+    onSuccess: (data) => {
+      router.push(`/r/${data}`);
     },
   });
+
   return (
     <div className="container flex items-center h-full max-w-3xl mx-auto">
       <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
