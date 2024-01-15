@@ -23,13 +23,28 @@ export async function POST(req: Response) {
         })
 
         if (!subscriptionExists) {
-            return new Response('You are not subscribe to this subreddit.',{status:400})
+            return new Response('You are not subscribe to this subreddit.', { status: 400 })
         }
 
-        await db.subscription.create({
-            data: {
-                subredditId,
-                userId: session.user.id
+        // check if user is th e creator of the subreddit
+
+        const subreddit = await db.subreddit.findFirst({
+            where: {
+                id: subredditId,
+                creatorId: session.user.id
+            }
+        })
+
+        if (subreddit) {
+            return new Response("You can't unsubscribe from your own subreddit")
+        }
+
+        await db.subscription.delete({
+            where: {
+                userId_subredditId: {
+                    subredditId,
+                    userId: session.user.id
+                }
             }
         })
 

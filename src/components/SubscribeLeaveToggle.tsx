@@ -89,13 +89,19 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
 
       return toast({
         title: "Unsubscribed",
-        description: `You ar now Unsubscribes from r/${subredditName}`,
+        description: `You are now Unsubscribes from r/${subredditName}`,
       });
     },
   });
 
   return isSubscribed ? (
-    <Button isLoading={isUnsubLoading} onClick={()=>unsubscribe()} className="w-full mt-1 mb-4">Leave community</Button>
+    <Button
+      isLoading={isUnsubLoading}
+      onClick={() => unsubscribe()}
+      className="w-full mt-1 mb-4"
+    >
+      Leave community
+    </Button>
   ) : (
     <Button
       isLoading={isSubLoading}
