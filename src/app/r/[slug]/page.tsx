@@ -3,7 +3,6 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notFound, useParams } from "next/navigation";
-import React, { FC } from "react";
 
 interface pageProps {
   params: {

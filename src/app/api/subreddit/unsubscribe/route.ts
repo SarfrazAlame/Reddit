@@ -22,8 +22,8 @@ export async function POST(req: Response) {
             }
         })
 
-        if (subscriptionExists) {
-            return new Response('You are already subscription to this subreddit.')
+        if (!subscriptionExists) {
+            return new Response('You are not subscribe to this subreddit.',{status:400})
         }
 
         await db.subscription.create({
