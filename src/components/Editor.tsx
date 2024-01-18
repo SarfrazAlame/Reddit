@@ -10,6 +10,7 @@ import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "./ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 
 interface EditorProps {
   subredditId: string;
@@ -31,6 +32,8 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -100,7 +103,8 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
   }, []);
 
   useEffect(() => {
-    if (Object.keys[errors].length) {
+
+    if (Object.keys(errors).length) {
       for (const [_key, value] of Object.entries(errors)) {
         toast({
           title: "something went wrong",
@@ -130,7 +134,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     }
   }, [isMounted, initializeEditor]);
 
-  const {} = useMutation({
+  const { mutate: CreatePost } = useMutation({
     mutationFn: async ({
       title,
       content,
@@ -141,7 +145,25 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         title,
         content,
       };
-      const {} = await axios.post("/api/subreddit/post/create", paload);
+      const { data } = await axios.post("/api/subreddit/post/create", paload);
+    },
+
+    onError: () => {
+      return toast({
+        title: "something went wrong",
+        description: "Your post was not published, please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      const newPathName = pathname.split("/").slice(0, -1).join("/");
+      router.push(newPathName);
+
+      router.refresh();
+
+      return toast({
+        description: "Your post has been published",
+      });
     },
   });
 
@@ -153,6 +175,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       content: blocks,
       subredditId,
     };
+    CreatePost(payload);
   }
 
   const { ref: titleRef, ...rest } = register("title");
